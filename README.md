@@ -4,9 +4,12 @@ This package contains useful components for [WordExpress](http://wordexpress.io)
 For a full example of how these components work, check out the repo for [WordExpress.io](https://github.com/ramsaylanier/WordpressExpress), which was built using some of these components.
 
 
+
 ## Components
-[WordExpressPage](#WordExpressPage)
-[WordExpressMenu](#WordExpressMenu)
+
+[WordExpressPage](#wordexpresspage)
+
+[WordExpressMenu](#wordexpressmenu)
 
 
 ### WordExpressPage
