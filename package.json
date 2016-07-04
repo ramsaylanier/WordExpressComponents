@@ -27,13 +27,15 @@
   },
   "homepage": "https://github.com/ramsaylanier/wordexpress-schema#readme",
   "dependencies": {
-    "react-apollo": "^0.3.10",
+    "apollo-client": "^0.3.26",
     "graphql-tag": "^0.1.7",
-    "react": "^15.2.0"
+    "react": "^15.2.0",
+    "react-apollo": "^0.3.13"
   },
   "devDependencies": {
     "babel-cli": "^6.3.17",
     "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.11.1",
     "babel-preset-stage-0": "^6.3.13",
     "graphql": "^0.6.0",
     "rimraf": "^2.5.1"
