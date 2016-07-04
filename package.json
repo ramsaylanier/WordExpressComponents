@@ -1,7 +1,7 @@
 {
-  "name": "wordexpress-schema",
+  "name": "wordexpress-components",
   "version": "1.0.0",
-  "description": "A GraphQL Schema for WordPress",
+  "description": "A Set of Components for use with WordExpress",
   "files": [
     "lib"
   ],
@@ -12,20 +12,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ramsaylanier/wordexpress-schema.git"
+    "url": "git+https://github.com/ramsaylanier/wordexpresscomponents.git"
   },
   "keywords": [
     "WordPress",
     "Javascript",
     "React",
-    "GraphQL"
+    "GraphQL",
+    "Apollo",
+    "ApolloStack"
   ],
   "author": "Ramsay Lanier <ramsaylanier@gmail.com> (ramsaylanier.com)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ramsaylanier/wordexpress-schema/issues"
+    "url": "https://github.com/ramsaylanier/wordexpresscomponents/issues"
   },
-  "homepage": "https://github.com/ramsaylanier/wordexpress-schema#readme",
+  "homepage": "https://github.com/ramsaylanier/wordexpresscomponents#readme",
   "dependencies": {
     "apollo-client": "^0.3.26",
     "graphql-tag": "^0.1.7",
