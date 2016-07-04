@@ -1,0 +1,41 @@
+{
+  "name": "wordexpress-schema",
+  "version": "1.0.0",
+  "description": "A GraphQL Schema for WordPress",
+  "files": [
+    "lib"
+  ],
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rimraf lib && babel src -d lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ramsaylanier/wordexpress-schema.git"
+  },
+  "keywords": [
+    "WordPress",
+    "Javascript",
+    "React",
+    "GraphQL"
+  ],
+  "author": "Ramsay Lanier <ramsaylanier@gmail.com> (ramsaylanier.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ramsaylanier/wordexpress-schema/issues"
+  },
+  "homepage": "https://github.com/ramsaylanier/wordexpress-schema#readme",
+  "dependencies": {
+    "react-apollo": "^0.3.10",
+    "graphql-tag": "^0.1.7",
+    "react": "^15.2.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.3.17",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13",
+    "graphql": "^0.6.0",
+    "rimraf": "^2.5.1"
+  }
+}
