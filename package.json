@@ -1,6 +1,6 @@
 {
   "name": "wordexpress-components",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Set of Components for use with WordExpress",
   "files": [
     "lib"
@@ -29,10 +29,10 @@
   },
   "homepage": "https://github.com/ramsaylanier/wordexpresscomponents#readme",
   "dependencies": {
-    "apollo-client": "^0.3.26",
+    "apollo-client": "^0.4.0",
     "graphql-tag": "^0.1.7",
     "react": "^15.2.0",
-    "react-apollo": "^0.3.13"
+    "react-apollo": "^0.3.15"
   },
   "devDependencies": {
     "babel-cli": "^6.3.17",
