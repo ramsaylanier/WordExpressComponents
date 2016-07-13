@@ -34,6 +34,8 @@ const WordExpressMenuWithData = connect({
               items {
     						id,
     						order,
+                post_title,
+                object_type,
     		        navitem {
     		          id,
     		          post_title,

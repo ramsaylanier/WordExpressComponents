@@ -11,7 +11,7 @@ class WordExpressPage extends React.Component{
     if (getPage.loading){
       return <div></div>
     } else{
-      const { page } = getPage;
+      const { post:page } = getPage;
 
       if (!page){
         Layout = Layouts['NotFound'];
@@ -32,7 +32,7 @@ const WordExpressPageWithData = connect({
       getPage: {
         query:gql`
           query getPage($page: String){
-            page(name: $page){
+            post(name: $page){
               id,
     					post_title
     					post_content
