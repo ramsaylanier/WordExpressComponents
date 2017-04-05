@@ -1,64 +1,64 @@
-import React from 'react';
-import { connect } from 'react-apollo';
-import gql from 'graphql-tag';
+import React, {Component, PropTypes} from 'react'
+import { gql, graphql } from 'react-apollo'
 
-class WordExpressMenu extends React.Component{
+class WordExpressMenu extends Component {
 
-	render(){
-    const { loading } = this.props.getMenu;
+  render() {
+    const {data} = this.props
+    const {loading, menus} = data
 
-    if (loading){
-      return(
-        <div></div>
-      )
-    } else {
+    if (!loading) {
+      const children = React.cloneElement(this.props.children, {menu: menus})
 
-  		const { menus } = this.props.getMenu;
-      const children = React.cloneElement(this.props.children, {menu: menus});
-
-  		return (
+      return (
         <div className="wordexpress-menu">{children}</div>
-  		)
+      )
     }
-	}
+
+    return (
+      <div></div>
+    )
+  }
 }
 
+WordExpressMenu.propTypes = {
+  data: PropTypes.object,
+  children: PropTypes.node
+}
 
-const WordExpressMenuWithData = connect({
-  mapQueriesToProps({ ownProps, state}) {
-    return {
-      getMenu: {
-        query: gql`
-          query getMenu($menu: String){
-            menus(name: $menu){
-              items {
-    						id,
-    						order,
-                post_title,
-                object_type,
-    		        navitem {
-    		          id,
-    		          post_title,
-    		          post_name
-    		        },
-    		        children {
-    		          id,
-    		          linkedId,
-    		          navitem {
-    		            post_title,
-    		            post_name
-    		          }
-    		        }
-    		      }
-            }
+const MenuQuery = gql`
+  query getMenu($menu: String){
+    menus(name: $menu){
+      items {
+        id,
+        order,
+        post_title,
+        object_type,
+        navitem {
+          id,
+          post_title,
+          post_name
+        },
+        children {
+          id,
+          linkedId,
+          navitem {
+            post_title,
+            post_name
           }
-        `,
-        variables: {
-          menu: ownProps.menu
         }
       }
     }
-  }
-})(WordExpressMenu);
+  }`
 
-export default WordExpressMenuWithData;
+const MenuWithData = graphql(MenuQuery, {
+  options: ({menu}) => {
+    return {
+      variables: {
+        menu: menu
+      }
+    }
+  }
+})(WordExpressMenu)
+
+export default MenuWithData

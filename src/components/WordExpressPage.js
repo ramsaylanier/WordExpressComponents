@@ -1,54 +1,54 @@
-import React from 'react';
-import { connect } from 'react-apollo';
-import gql from 'graphql-tag';
+import {Component, PropTypes} from 'react'
+import { gql, graphql } from 'react-apollo'
 
-class WordExpressPage extends React.Component{
-	render(){
-    const { getPage } = this.props;
-    const { Layouts } = this.props.routes[0];
-    let Layout;
+class WordExpressPage extends Component{
+  render(){
+    const {data} = this.props
+    const {loading, post} = data
+    const {Layouts} = this.props.routes[0]
+    let Layout
 
-    if (getPage.loading){
-      return <div></div>
-    } else{
-      const { post:page } = getPage;
-
-      if (!page){
-        Layout = Layouts['NotFound'];
-      } else if (page.layout){
-        Layout = Layouts[page.layout.meta_value] || Layouts['Default'];
+    if (!loading) {
+      if (!post) {
+        Layout = Layouts['NotFound']
+      } else if (post.layout) {
+        Layout = Layouts[post.layout.meta_value] || Layouts['Default']
       } else {
-        Layout = Layouts['Default'];
+        Layout = Layouts['Default']
       }
 
-      return <Layout.Component page={page} layout={Layout}/>
+      return <Layout.Component page={post} layout={Layout}/>
     }
-	}
+
+    return <div></div>
+  }
 }
 
-const WordExpressPageWithData = connect({
-  mapQueriesToProps({ ownProps, state}){
-    return {
-      getPage: {
-        query:gql`
-          query getPage($page: String){
-            post(name: $page){
-              id,
-    					post_title
-    					post_content
-    					thumbnail,
-              layout{
-                meta_value
-              }
-            }
-          }
-        `,
-        variables: {
-          page: ownProps.params.page || 'Homepage'
-        }
+WordExpressPage.propTypes = {
+  data: PropTypes.object,
+  routes: PropTypes.array
+}
+
+const PageQuery = gql`
+  query getPage($page: String){
+    post(name: $page){
+      id,
+      post_title
+      post_content
+      thumbnail,
+      layout{
+        meta_value
       }
     }
   }
-})(WordExpressPage);
+`
 
-export default WordExpressPageWithData;
+const PageWithData = graphql(PageQuery, {
+  options: ({params}) => ({
+    variables: {
+      page: params.page || 'homepage'
+    }
+  })
+})(WordExpressPage)
+
+export default PageWithData
