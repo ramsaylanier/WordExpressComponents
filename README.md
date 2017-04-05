@@ -30,43 +30,43 @@ let routes = (
 ...
 ```
 
-Above, the Layouts component is a mapped object that return a Layout Component based on a custom field in your WordPress backend. The details of how Layouts work is [explained here](https://github.com/ramsaylanier/WordPressExpress#using-react-components-as-layouts). WordExpressPage contains a query which fetchs the Page based on its slug and gets the layout value. It also gets things like Post Title and Post Content as well. Refer the the [source](https://github.com/ramsaylanier/WordExpressComponents/blob/master/src/components/WordExpressPage.js) for more details.
+Above, the Layouts component is a mapped object that return a Layout Component based on a custom field in your WordPress backend. The details of how Layouts work is [explained here](https://github.com/ramsaylanier/WordPressExpress#using-react-components-as-layouts). WordExpressPage contains a query which fetchs the Page based on its slug and gets the layout value. It also gets things like Post Title and Post Content as well. Refer to the [source](https://github.com/ramsaylanier/WordExpressComponents/blob/master/src/components/WordExpressPage.js) for more details.
 
 WordExpressPage passes the returned Page data to it's Layout. It can be accessed like this:
 
 ```es6
-class DefaultLayout extends React.Component{
+class DefaultLayout extends Component {
 
-  render(){
+  static propTypes = {
+    page: PropTypes.object
+  }
+
+  render() {
     const { loading } = this.props.page;
 
-    if (loading){
+    if (!loading) {
+      const { post_title: title, post_content: content, thumbnail } = this.props.page;
+      const bg = {backgroundImage: `url("${thumbnail}")`};
+      const heroClass = thumbnail ? 'hero_thumbnail' : 'hero';
+
       return (
-        <div>loading...</div>
-      )
-    } else {
-
-      const { post_title, post_content, thumbnail } = this.props.page;
-
-      let bg = {
-        backgroundImage: "url('" + thumbnail + "')"
-      }
-
-      return(
-          <div style={bg}>
-    				<div className="wrapper">
-              <h2 className="title">{post_title}</h2>
+        <Page>
+          <div styleName={heroClass} style={bg}>
+    				<div styleName="wrapper tight">
+              <h2 styleName="title">{title}</h2>
     				</div>
     			</div>
 
-    			<div className="content">
-    				<div className="wrapper tight">
-    					<PostContent post_content={post_content}/>
+    			<div styleName="content">
+    				<div styleName="wrapper tight">
+    					<PostContent content={content}/>
     				</div>
     			</div>
         </Page>
-      )
+      );
     }
+
+    return <div></div>;
   }
 }
 ```
@@ -103,37 +103,51 @@ Note that WordExpressMenu takes a prop called menu. This should be the slug of y
 
 ```es6
 ...
-import _ from 'lodash';
+import {sortBy} from 'lodash';
 ...
 
-class AppNav extends  React.Component{
+class AppNav extends Component {
 
-	render(){
-		let { items } = this.props.menu;
-		items = _.sortBy(items, 'order');
+  static propTypes = {
+    menu: PropTypes.object
+  }
 
-		return(
-			<NavList type="primary">
-				{items.map( item => {
-					const { children } = item;
-					return(
-						<NavItem key={item.id}>
-							<Link to={{ pathname: `/${item.navitem.post_name}` }} className={styles.link}>{item.navitem.post_title}</Link>
-							{children.length > 0 &&
-								<NavList type="subnav">
-									{children.map( child => {
-										return(
-											<NavItem type="link" href="{child.navitem.post_name}">{child.navitem.post_title}</NavItem>
-										)
-									})}
-								</NavList>
-							}
-						</NavItem>
-					)
-				})}
-			</NavList>
-		)
-	}
+  render() {
+    if (!this.props.menu) {
+      return null;
+    }
+
+    let { items } = this.props.menu;
+    items = sortBy(items, 'order');
+
+    return (
+      <NavList type="primary">
+        <NavItem>
+          <Link to="/"><Logo/></Link>
+        </NavItem>
+        {items.map( item => {
+          const {children, object_type: type, post_title: title} = item;
+          const linkText = title.length > 0 ? title : item.navitem.post_title;
+          const pathname = type === 'page' ? `/${item.navitem.post_name}` : `/${type}/${item.navitem.post_name}`;
+
+          return (
+            <NavItem key={item.id}>
+              <Link to={{ pathname: pathname }} className={styles.link}>{linkText}</Link>
+              {children.length > 0 &&
+                <NavList type="subnav">
+                  {children.map( child => {
+                    return (
+                      <NavItem type="link" href="{child.navitem.post_name}">{child.navitem.post_title}</NavItem>
+                    );
+                  })}
+                </NavList>
+              }
+            </NavItem>
+          );
+        })}
+      </NavList>
+    );
+  }
 }
 ```
 In the above example, this will work for subnav items in your menu as well!
